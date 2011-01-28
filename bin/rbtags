@@ -1,0 +1,9 @@
+#! /usr/bin/env ruby
+
+require 'rbtags'
+
+ARGV.each do |path|
+  require path
+end
+
+RbTags.format.finish
