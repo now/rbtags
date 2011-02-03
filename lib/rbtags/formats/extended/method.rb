@@ -8,19 +8,23 @@ class RbTags::Formats::Extended::Method
     super trace
   end
 
-  # TODO: Skip private methods?
   def reject?
-    super
+    not (not @singleton and @method == :initialize) and
+    ((class << (@singleton ? @klass : @object); self; end).private_method_defined?(@method) or
+     super)
   end
 
   def to_s
     line(qualified)
-#    "%s\n%s" % [line(qualified), line(@method)]
   end
 
 private
 
   def qualified
-    [@klass, @singleton ? '.' : '#', @method].join('')
+    if not @singleton and @method == :initialize
+      '%s.new' % @klass
+    else
+      '%s%s%s' % [@klass, @singleton ? '.' : '#', @method]
+    end
   end
 end
