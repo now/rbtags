@@ -22,6 +22,6 @@ Object.instance_eval{ class << self; self; end }.instance_eval do
   define_method :method_added do |method|
     begin o = RbTags::Object::Allocator[self] rescue Exception end
     RbTags.format.method self, o, method, false, caller
-    method_added.call(name)
+    method_added.call(method)
   end
 end
