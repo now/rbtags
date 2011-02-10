@@ -1,27 +1,31 @@
 # -*- coding: utf-8 -*-
 
 class RbTags::Rake::Tasks::Tags < Rake::TaskLib
-  def initialize(files = nil)
-    @files = files || FileList['lib/**/*.rb'].sort
+  def initialize(libs = nil, requires = nil)
+    @libs = libs || 'lib'
+    @requires = requires || @libs.map{ |lib|
+      FileList[lib + '/**/*.rb'].map{ |path| path.sub(%r{\A#{Regexp.escape(lib)}/}, '') }
+    }.flatten.sort
     yield self if block_given?
     define
   end
 
   def define
     desc 'Generate TAGS'
-    task :tags => files do
+    task :tags do
       require 'rbtags'
-      lib = File.join(Dir.pwd, 'lib')
-      $LOAD_PATH.shift lib unless $LOAD_PATH.include? lib
+      libs.each do |lib|
+        $LOAD_PATH.unshift lib unless $LOAD_PATH.include? lib
+      end
       File.open('TAGS', 'wb') do |tags|
         RbTags.with_format RbTags::Formats::Extended.new(tags) do
-          files.each do |path|
-            require path.sub(%r{\Alib/}, '')
+          requires.each do |path|
+            require path
           end
         end
       end
     end
   end
 
-  attr_accessor :files
+  attr_accessor :libs, :requires
 end
