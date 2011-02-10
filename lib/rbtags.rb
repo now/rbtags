@@ -6,6 +6,15 @@ module RbTags
   require 'rbtags/version'
 
   class << self
+    def with_format(with)
+      saved_format = format
+      format with
+      yield
+      format.finish
+    ensure
+      format saved_format
+    end
+
     def format(format = nil)
       return @format = format if format
       @format ||= Formats::Extended.new
