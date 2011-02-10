@@ -9,7 +9,6 @@ module RbTags::Formats::Extended::Instance
     @file.name.start_with? RbTags.path
   end
 
-
 private
 
   def line(tag)
