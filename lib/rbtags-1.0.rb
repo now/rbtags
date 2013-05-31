@@ -15,10 +15,6 @@ module RbTags
       return @format = format if format
       @format ||= RbTags::Formats::Nil.new
     end
-
-    def path
-      ::File.expand_path('..', __FILE__)
-    end
   end
 
   load File.expand_path('../rbtags-1.0/version.rb', __FILE__)
