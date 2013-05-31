@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class RbTags::Formats::Extended
-  require 'rbtags/formats/extended/instance'
-  require 'rbtags/formats/extended/class'
-  require 'rbtags/formats/extended/method'
-
   def initialize(io = $stdout)
     @io = io
     @lines = []

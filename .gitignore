@@ -1,4 +1,5 @@
+*.gem
+*.gemspec
 doc/
 .yardoc/
-*.gem
-*.swp
+.yardopts.html

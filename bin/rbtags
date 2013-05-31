@@ -1,9 +1,9 @@
 #! /usr/bin/env ruby
 
-require 'rbtags'
+require 'rbtags-1.0'
 
 ARGV.each do |path|
-  require path
+  require File.expand_path(path)
 end
 
 RbTags.format.finish

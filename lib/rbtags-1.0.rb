@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
 module RbTags
-  require 'rbtags/file'
-  require 'rbtags/formats'
-  require 'rbtags/version'
-
   class << self
     def with_format(with)
       saved_format = format
@@ -17,7 +13,7 @@ module RbTags
 
     def format(format = nil)
       return @format = format if format
-      @format ||= Formats::Extended.new
+      @format ||= RbTags::Formats::Nil.new
     end
 
     def path
@@ -25,7 +21,8 @@ module RbTags
     end
   end
 
-  require 'rbtags/class'
-  require 'rbtags/module'
-  require 'rbtags/object'
+  load File.expand_path('../rbtags-1.0/version.rb', __FILE__)
+  Version.load
+
+  RbTags.format RbTags::Formats::Extended.new
 end

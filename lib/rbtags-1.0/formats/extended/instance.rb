@@ -2,11 +2,13 @@
 
 module RbTags::Formats::Extended::Instance
   def initialize(trace)
-    @file = RbTags::File.new(*%r{\A(.*):(\d+)\z}.match(trace.find{ |line| line !~ %r{\A(.*):(\d+):in .*\z} })[1..2])
+    not_in = trace.find{ |line| line !~ /\A(.*):(\d+):in .*\z/ }
+    not_in = trace.find{ |line| line =~ /\A(.*):(\d+):in `<.*\z/ } if not_in.nil?
+    @file = RbTags::File.new(*%r{\A(.*):(\d+):}.match(not_in)[1..2])
   end
 
   def reject?
-    @file.name.start_with? RbTags.path
+    false
   end
 
 private

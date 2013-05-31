@@ -12,7 +12,6 @@ class RbTags::File
 
   def line
     @@lines ||= Hash.new{ |lines, file|
-      sum = 0
       lines[file] = File.open(file, 'rb'){ |io| io.map{ |line| line.chomp } }
     }
     @@lines[@file][@line - 1]
