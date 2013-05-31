@@ -10,7 +10,7 @@ class RbTags::Formats::Extended::Method
 
   def reject?
     not (not @singleton and @method == :initialize) and
-    ((class << (@singleton ? @klass : @object); self; end).private_method_defined?(@method) or
+    ((begin (class << (@singleton ? @klass : @object); self; end) rescue Exception; @klass; end).private_method_defined?(@method) or
      super)
   end
 
